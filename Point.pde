@@ -3,6 +3,7 @@ class Point
   int number;
   float x;
   float y;
+  float[][] pointCoordinates = {{x}, {y}};
 
   Point(int pointNumber, float pointX, float pointY) 
   {
@@ -14,7 +15,7 @@ class Point
     fill(0);
     ellipse(x,y,10,10);
   }
-  float getPointCoordX(){
-    return x;
+  float[][] getPointCoordinates(){
+    return pointCoordinates;
   }
 }

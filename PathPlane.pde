@@ -17,7 +17,16 @@ void draw() {
       line(points[i].x, points[i].y, points[i-1].x, points[i-1].y);
     }
     points[i].update();
+  }
+  if (points[0] != null) {
     player.movePLayer(points[0].x, points[0].y);
+  }
+  if (player.isArrived() && player.isOnStartPosition() == false)
+  {
+    for (int i =1; i<index; i++) {
+      points[i-1]= points[i];
+    }
+    index -= 1;
   }
   player.update();
 }

@@ -1,11 +1,13 @@
 class Player {
   float x ;
   float y ;
+  float[][] playerCoordinates = {{x}, {y}};
   float angle;
   float pathAngle;
   float pathLeft;
   float pathDone = 0;
   float speed = 2;
+
   Player(float playerX, float playerY) {
     x = playerX;
     y = playerY;
@@ -42,27 +44,50 @@ class Player {
 
     pathLeft = (float)sqrt(pow((toX-x), 2) + pow((toY - y), 2));
     pathAngle = atan((toY-y)/(toX-x));
-    if (toX<x && toY < y) {
-      x -= cos(pathAngle)*speed;
-      y -= sin(pathAngle)*speed;
-    } else if ( toX<x && toY>y) {
-      x -= cos(pathAngle)*speed;
-      y -= sin(pathAngle)*speed;
-    } else if ( toX>x && toY<y) {
-      x += cos(pathAngle)*speed;
-      y += sin(pathAngle)*speed;
-    } else if (toX>x && toY>y) {
-      x += cos(pathAngle)*speed;
-      y += sin(pathAngle)*speed;
+    if (pathLeft > 1) {
+      if (toX<x && toY < y) {
+        x -= cos(pathAngle)*speed;
+        y -= sin(pathAngle)*speed;
+      } else if ( toX<x && toY>y) {
+        x -= cos(pathAngle)*speed;
+        y -= sin(pathAngle)*speed;
+      } else if ( toX>x && toY<y) {
+        x += cos(pathAngle)*speed;
+        y += sin(pathAngle)*speed;
+      } else if (toX>x && toY>y) {
+        x += cos(pathAngle)*speed;
+        y += sin(pathAngle)*speed;
+      }
+      pushMatrix();
+      translate(x, y);
+      popMatrix();
+      println("Path done = " + pathDone + " path left = " + pathLeft);
     }
-    //pathDone += sqrt(pow(cos(pathAngle)*speed,2))+pow(sin(pathAngle)*speed,2);
-    if (pathLeft< 1){
+    if (pathLeft< 1) {
       x = toX;
       y = toY;
+      pushMatrix();
+      translate(x, y);
+      popMatrix();
+      return;
     }
-    pushMatrix();
-    translate(x, y);
-    popMatrix();
-    println("Path done = " + pathDone + " path length = " + pathLeft);
+  }
+  boolean isOnStartPosition() {
+    if (x == width/2-25 && y == height-100)
+    {
+      return true;
+    } else { 
+      return false;
+    }
+  }
+  boolean isArrived() {
+    if (pathLeft == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  float[][] getCoordinates() {
+    return playerCoordinates;
   }
 }
